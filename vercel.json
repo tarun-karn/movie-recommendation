@@ -1,16 +1,24 @@
 {
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "data/**"
     }
-  ],
+  },
   "rewrites": [
-    { "source": "/", "destination": "/public/index.html" },
-    { "source": "/styles.css", "destination": "/public/styles.css" },
-    { "source": "/app.js", "destination": "/public/app.js" },
     {
-      "source": "/(.*)",
+      "source": "/",
+      "destination": "/public/index.html"
+    },
+    {
+      "source": "/styles.css",
+      "destination": "/public/styles.css"
+    },
+    {
+      "source": "/app.js",
+      "destination": "/public/app.js"
+    },
+    {
+      "source": "/(health|home|tmdb/.*|movie/.*|recommend/.*|docs|openapi.json)",
       "destination": "/api/index.py"
     }
   ]
