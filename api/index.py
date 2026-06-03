@@ -9,6 +9,7 @@ import pandas as pd
 import httpx
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 # pyrefly: ignore [missing-import]
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
@@ -383,15 +384,6 @@ async def attach_tmdb_card(title: str) -> Optional[TMDBMovieCard]:
 # =========================
 # ROUTES
 # =========================
-@app.get("/", tags=["Health"])
-def root():
-    """Root endpoint — API information."""
-    return {
-        "name": "Movie Recommender API",
-        "version": "3.0.0",
-        "docs": "/docs" if not IS_PRODUCTION else "Disabled in production",
-        "health": "/health",
-    }
 
 
 @app.get("/health", tags=["Health"])
@@ -562,3 +554,11 @@ async def search_bundle(
         tfidf_recommendations=tfidf_items,
         genre_recommendations=genre_recs,
     )
+
+
+# =========================
+# STATIC FRONTEND
+# =========================
+public_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public")
+if os.path.exists(public_dir):
+    app.mount("/", StaticFiles(directory=public_dir, html=True), name="public")
