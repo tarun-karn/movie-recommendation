@@ -55,8 +55,8 @@ _state: Dict[str, Any] = {
 # =========================
 def _resolve_data_path(filename: str) -> str:
     """Resolve data file paths that work both locally and on Vercel."""
-    # Vercel extracts to /var/task, local dev uses relative paths
-    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Data is now co-located with api/index.py in api/data
+    base = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(base, "data", filename)
 
 
@@ -557,21 +557,24 @@ async def search_bundle(
 
 
 # =========================
-# STATIC FRONTEND (local dev only)
+# STATIC FRONTEND
 # =========================
-# On Vercel, static files are served by the CDN via rewrites in vercel.json.
-# Locally, FastAPI serves them directly from the public/ directory.
-if not IS_PRODUCTION:
-    public_dir = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public"
+# Frontend files live in api/static/ (co-located with this file).
+# On Vercel, subdirectories of api/ are auto-bundled with the function.
+static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+
+
+@app.get("/", tags=["Frontend"], include_in_schema=False)
+def serve_index():
+    index_path = os.path.join(static_dir, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path, media_type="text/html")
+    return JSONResponse(
+        status_code=404,
+        content={"detail": f"Frontend not found at {index_path}"},
     )
 
-    @app.get("/", tags=["Frontend"], include_in_schema=False)
-    def serve_index():
-        index_path = os.path.join(public_dir, "index.html")
-        if os.path.exists(index_path):
-            return FileResponse(index_path)
-        return {"detail": f"Frontend not found at {index_path}"}
 
-    if os.path.exists(public_dir):
-        app.mount("/", StaticFiles(directory=public_dir), name="public")
+if os.path.exists(static_dir):
+    app.mount("/", StaticFiles(directory=static_dir), name="static")
+
