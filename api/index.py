@@ -557,16 +557,21 @@ async def search_bundle(
 
 
 # =========================
-# STATIC FRONTEND
+# STATIC FRONTEND (local dev only)
 # =========================
-public_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public")
+# On Vercel, static files are served by the CDN via rewrites in vercel.json.
+# Locally, FastAPI serves them directly from the public/ directory.
+if not IS_PRODUCTION:
+    public_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public"
+    )
 
-@app.get("/", tags=["Frontend"], include_in_schema=False)
-def serve_index():
-    index_path = os.path.join(public_dir, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
-    return {"detail": f"Frontend not found at {index_path}"}
+    @app.get("/", tags=["Frontend"], include_in_schema=False)
+    def serve_index():
+        index_path = os.path.join(public_dir, "index.html")
+        if os.path.exists(index_path):
+            return FileResponse(index_path)
+        return {"detail": f"Frontend not found at {index_path}"}
 
-if os.path.exists(public_dir):
-    app.mount("/", StaticFiles(directory=public_dir), name="public")
+    if os.path.exists(public_dir):
+        app.mount("/", StaticFiles(directory=public_dir), name="public")
