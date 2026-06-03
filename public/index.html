@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieRec — AI Movie Recommendations</title>
+  <meta name="description" content="Discover your next favorite movie with AI-powered content-based recommendations. Browse 45,000+ movies with rich TMDB data.">
+  <meta name="author" content="Tarun Karn">
+  <meta name="theme-color" content="#FFD23F">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header id="header">
+    <div class="container header-inner">
+      <a href="#/" class="logo" id="logo">
+        <span class="logo-icon">🎬</span>
+        <span class="logo-text">MovieRec</span>
+      </a>
+      <form class="search-box" id="search-form" role="search">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search 45,000+ movies..."
+          autocomplete="off"
+          maxlength="200"
+          aria-label="Search movies"
+        >
+        <button type="submit" class="btn btn-search" id="search-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </form>
+    </div>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="main-content" role="main">
+    <!-- Dynamic content rendered by app.js -->
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer id="footer">
+    <div class="container footer-inner">
+      <p class="footer-brand">
+        <span class="logo-icon">🎬</span> MovieRec
+      </p>
+      <p class="footer-credit">
+        Built by <a href="https://github.com/tarun-karn" target="_blank" rel="noopener noreferrer">Tarun Karn</a>
+      </p>
+      <p class="footer-tmdb">
+        Movie data from <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDB</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
