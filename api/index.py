@@ -566,7 +566,7 @@ def serve_index():
     index_path = os.path.join(public_dir, "index.html")
     if os.path.exists(index_path):
         return FileResponse(index_path)
-    return {"detail": "Frontend not found"}
+    return {"detail": f"Frontend not found at {index_path}"}
 
 if os.path.exists(public_dir):
     app.mount("/", StaticFiles(directory=public_dir), name="public")
