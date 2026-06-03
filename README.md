@@ -2,11 +2,6 @@
 
 A production-ready, content-based movie recommendation engine deployed as a serverless API on Vercel. Uses **TF-IDF cosine similarity** on a 45,000+ movie dataset combined with real-time **TMDB API** integration for rich movie data, posters, and genre-based discovery.
 
-[![CI](https://github.com/tarun-karn/movie-recommendation/actions/workflows/ci.yml/badge.svg)](https://github.com/tarun-karn/movie-recommendation/actions)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/tarun-karn/movie-recommendation)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://python.org)
-
 ---
 
 ## ✨ Features
