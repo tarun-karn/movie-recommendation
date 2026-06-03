@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 # pyrefly: ignore [missing-import]
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
@@ -560,5 +560,13 @@ async def search_bundle(
 # STATIC FRONTEND
 # =========================
 public_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public")
+
+@app.get("/", tags=["Frontend"], include_in_schema=False)
+def serve_index():
+    index_path = os.path.join(public_dir, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    return {"detail": "Frontend not found"}
+
 if os.path.exists(public_dir):
-    app.mount("/", StaticFiles(directory=public_dir, html=True), name="public")
+    app.mount("/", StaticFiles(directory=public_dir), name="public")
